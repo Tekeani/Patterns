@@ -1,3 +1,15 @@
+// Interface du Repository pour gérer la persistance des mangas
+interface MangaRepository {
+    save(manga: Manga): void;
+}
+
+// Implémentation du Repository qui simule la sauvegarde en console
+class ConsoleMangaRepository implements MangaRepository {
+    save(manga: Manga): void {
+        console.log(`Manga "${manga.getTitre()}" avec personnage principal(s) : ${manga.getPersonnagePrincipal().getFullName()} doit être sauvegardé.`);
+    }
+}
+
 // Interface pour le personnage principal
 interface MainCharacter {
     getFullName(): string;
@@ -106,16 +118,16 @@ class TwoMainCharacter implements MainCharacter {
 
 // Exemple d'utilisation
 const mangaFactory = new MangaFactory();
-
-// Création des personnages principaux
 const nana1 = new MainCharacterImpl("Ōsaki", "Nana");
 const mainCharacter = new TwoMainCharacter(nana1, "Komatsu", "Nana");
 
 // Création du manga avec deux personnages principaux
 const nana = mangaFactory.createManga(TypeManga.SHOJO, "Nana", mainCharacter);
 
-console.log(nana.getDescription());
-// Ce shojo s'appelle Nana et son personnage principal est Nana Ōsaki ainsi que Nana Komatsu
+// Création du repository et sauvegarde du manga
+const mangaRepository = new ConsoleMangaRepository();
+mangaRepository.save(nana);
+
 
 
 
